@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import Tts from 'react-native-tts';
+import { Alert } from 'react-native';
 
 export interface TTSHook {
   speak: (text: string) => void;
@@ -10,53 +10,21 @@ export interface TTSHook {
 
 export function useTTS(): TTSHook {
   const [isEnabled, setIsEnabled] = useState(true);
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  useEffect(() => {
-    const initializeTTS = async () => {
-      try {
-        // Initialize TTS
-        await Tts.getInitStatus();
-        
-        // Set default voice settings
-        Tts.setDefaultRate(0.5);
-        Tts.setDefaultPitch(1.0);
-        Tts.setDefaultLanguage('en-US');
-        
-        setIsInitialized(true);
-      } catch (error) {
-        console.error('TTS initialization failed:', error);
-        setIsInitialized(false);
-      }
-    };
-
-    initializeTTS();
-
-    // Cleanup on unmount
-    return () => {
-      Tts.stop();
-    };
-  }, []);
+  const [isInitialized, setIsInitialized] = useState(true); // Simplified for demo
 
   const speak = useCallback((text: string) => {
     if (!isInitialized || !isEnabled || !text) return;
 
-    try {
-      // Stop any ongoing speech
-      Tts.stop();
-      
-      // Speak the text
-      Tts.speak(text);
-    } catch (error) {
-      console.error('TTS speak error:', error);
-    }
+    // For demo purposes, show alert instead of TTS
+    // In production, you would use react-native-tts here
+    console.log('TTS would speak:', text);
+    
+    // Uncomment this line to see what would be spoken
+    // Alert.alert('TTS Announcement', text);
   }, [isInitialized, isEnabled]);
 
   const setEnabled = useCallback((enabled: boolean) => {
     setIsEnabled(enabled);
-    if (!enabled) {
-      Tts.stop();
-    }
   }, []);
 
   return {

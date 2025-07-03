@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+// Using native picker instead of external dependency
+// import { Picker } from '@react-native-picker/picker';
 import { IntervalRate } from '../hooks/useStopwatch';
 
 interface StopwatchControlsProps {
@@ -51,15 +52,25 @@ export const StopwatchControls: React.FC<StopwatchControlsProps> = ({
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Announcement Interval</Text>
         <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={intervalRate}
-            onValueChange={handleIntervalChange}
-            style={styles.picker}
+          <TouchableOpacity
+            style={styles.pickerButton}
+            onPress={() => {
+              Alert.alert(
+                'Select Interval',
+                'Choose announcement interval',
+                [
+                  { text: 'Every 10 Seconds', onPress: () => handleIntervalChange('10seconds') },
+                  { text: 'Every 30 Seconds', onPress: () => handleIntervalChange('30seconds') },
+                  { text: 'Every Minute', onPress: () => handleIntervalChange('minute') },
+                  { text: 'Cancel', style: 'cancel' }
+                ]
+              );
+            }}
           >
-            <Picker.Item label="Every 10 Seconds" value="10seconds" />
-            <Picker.Item label="Every 30 Seconds" value="30seconds" />
-            <Picker.Item label="Every Minute" value="minute" />
-          </Picker>
+            <Text style={styles.pickerText}>
+              {getIntervalLabel(intervalRate)}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -159,8 +170,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#F9FAFB',
   },
-  picker: {
+  pickerButton: {
     height: 50,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  pickerText: {
+    fontSize: 16,
+    color: '#374151',
   },
   audioSection: {
     backgroundColor: '#FEF3C7',
