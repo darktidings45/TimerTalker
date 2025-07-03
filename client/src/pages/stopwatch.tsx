@@ -18,16 +18,15 @@ export default function StopwatchPage() {
         let announcement = "";
 
         switch (stopwatch.intervalRate) {
-          case "seconds":
+          case "10seconds":
             announcement = `${totalSeconds} second${totalSeconds !== 1 ? 's' : ''}`;
             break;
-          case "minutes":
+          case "30seconds":
+            announcement = `${totalSeconds} second${totalSeconds !== 1 ? 's' : ''}`;
+            break;
+          case "minute":
             const minutes = Math.floor(totalSeconds / 60);
             announcement = `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-            break;
-          case "hours":
-            const hours = Math.floor(totalSeconds / 3600);
-            announcement = `${hours} hour${hours !== 1 ? 's' : ''}`;
             break;
         }
 

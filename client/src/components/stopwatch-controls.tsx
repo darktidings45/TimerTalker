@@ -43,9 +43,9 @@ export function StopwatchControls({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="seconds">Every Second</SelectItem>
-            <SelectItem value="minutes">Every Minute</SelectItem>
-            <SelectItem value="hours">Every Hour</SelectItem>
+            <SelectItem value="10seconds">Every 10 Seconds</SelectItem>
+            <SelectItem value="30seconds">Every 30 Seconds</SelectItem>
+            <SelectItem value="minute">Every Minute</SelectItem>
           </SelectContent>
         </Select>
       </div>

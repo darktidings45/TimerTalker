@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-export type IntervalRate = "seconds" | "minutes" | "hours";
+export type IntervalRate = "10seconds" | "30seconds" | "minute";
 
 export interface LapTime {
   id: number;
@@ -21,7 +21,7 @@ export function useStopwatch() {
     isRunning: false,
     elapsedTime: 0,
     startTime: null,
-    intervalRate: "seconds",
+    intervalRate: "10seconds",
     lapTimes: []
   });
 
@@ -39,14 +39,14 @@ export function useStopwatch() {
 
   const getAnnouncementInterval = useCallback((rate: IntervalRate): number => {
     switch (rate) {
-      case "seconds":
-        return 1000;
-      case "minutes":
+      case "10seconds":
+        return 10000;
+      case "30seconds":
+        return 30000;
+      case "minute":
         return 60000;
-      case "hours":
-        return 3600000;
       default:
-        return 1000;
+        return 10000;
     }
   }, []);
 
