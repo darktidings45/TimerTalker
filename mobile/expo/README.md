@@ -92,12 +92,33 @@ npx expo start --ios
 
 ## 🔨 Building for Production
 
+Expo now uses EAS Build for creating production builds:
+
 ```bash
-# Build Android APK
-npx expo build:android
+# Install EAS CLI
+npm install -g @expo/eas-cli
+
+# Login to Expo
+eas login
+
+# Configure build
+eas build:configure
+
+# Build Android APK/AAB
+eas build -p android
 
 # Build iOS IPA
-npx expo build:ios
+eas build -p ios
+
+# Build for both platforms
+eas build -p all
+```
+
+### Alternative: Development Build
+For testing without app store:
+```bash
+# Create development build
+eas build -p android --profile development
 ```
 
 ## 🐛 Troubleshooting
