@@ -90,36 +90,81 @@ npx expo start --ios
 - **Easy Deployment**: One command to build APK/IPA
 - **Web Support**: Also runs in browser
 
-## 🔨 Building for Production
+## 🔨 Building for Production (Local Builds)
 
-Expo now uses EAS Build for creating production builds:
-
+### Option 1: Expo Development Build (Local)
 ```bash
-# Install EAS CLI
-npm install -g @expo/eas-cli
+# Install Expo CLI locally
+npm install -g @expo/cli
 
-# Login to Expo
-eas login
-
-# Configure build
-eas build:configure
-
-# Build Android APK/AAB
-eas build -p android
-
-# Build iOS IPA
-eas build -p ios
-
-# Build for both platforms
-eas build -p all
+# Create development build locally
+npx expo run:android
+npx expo run:ios
 ```
 
-### Alternative: Development Build
-For testing without app store:
+### Option 2: Eject to React Native CLI (Full Local Control)
 ```bash
-# Create development build
-eas build -p android --profile development
+# Eject from Expo to get full native control
+npx expo eject
+
+# Then build with standard React Native commands
+npx react-native run-android
+npx react-native run-ios
 ```
+
+### Option 3: Local APK Generation
+```bash
+# Generate Android APK locally (requires Android Studio)
+npx expo run:android --variant release
+
+# Or build with Gradle directly after ejecting
+cd android
+./gradlew assembleRelease
+```
+
+### Prerequisites for Local Builds
+- **Android**: Android Studio with SDK and emulator
+- **iOS**: Xcode (Mac only) with iOS simulator
+- **Java Development Kit (JDK)** for Android builds
+
+## 🏠 Completely Local Build Setup
+
+### Step 1: Install Android Studio
+1. Download Android Studio from https://developer.android.com/studio
+2. Install Android SDK (API 33 or higher)
+3. Create Android Virtual Device (AVD) or connect physical device
+
+### Step 2: Configure Environment Variables
+```bash
+# Add to your ~/.bashrc or ~/.zshrc
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+### Step 3: Local Build Commands
+```bash
+# Test with emulator first
+npx expo run:android
+
+# Build release APK locally
+npx expo run:android --variant release
+
+# The APK will be generated in:
+# android/app/build/outputs/apk/release/app-release.apk
+```
+
+### Step 4: Install APK on Device
+```bash
+# Install via ADB
+adb install android/app/build/outputs/apk/release/app-release.apk
+
+# Or copy APK file to device and install manually
+```
+
+This approach keeps everything on your local machine with no cloud dependencies.
 
 ## 🐛 Troubleshooting
 
