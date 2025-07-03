@@ -1,13 +1,14 @@
 # React Native Stopwatch Setup Guide
 
-## Quick Setup for Android Studio
+## Updated Setup for Android Studio
 
-### 1. Initialize React Native Project
-Since you're getting the default "Welcome to React" screen, you need to properly initialize the React Native project:
+### 1. Initialize React Native Project (Updated Command)
+Since you're getting the default "Welcome to React" screen, use the updated React Native CLI:
 
 ```bash
-cd mobile
-npx react-native init StopwatchMobile --template react-native-template-typescript
+# Go to parent directory (not inside mobile/)
+cd ..
+npx @react-native-community/cli@latest init StopwatchMobile --template react-native-template-typescript
 ```
 
 ### 2. Replace Default Files

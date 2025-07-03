@@ -1,5 +1,5 @@
 {
-  "name": "stopwatch-mobile",
+  "name": "StopwatchMobile",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,17 +7,11 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint .",
-    "build:android": "cd android && ./gradlew assembleRelease",
-    "build:ios": "cd ios && xcodebuild -workspace StopwatchMobile.xcworkspace -scheme StopwatchMobile -configuration Release -destination generic/platform=iOS -archivePath StopwatchMobile.xcarchive archive"
+    "lint": "eslint ."
   },
   "dependencies": {
     "react": "18.3.1",
-    "react-native": "0.76.5",
-    "react-native-tts": "^4.1.0",
-    "react-native-vector-icons": "^10.2.0",
-    "@react-native-async-storage/async-storage": "^2.1.0",
-    "react-native-vibration": "^1.1.3"
+    "react-native": "0.76.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
