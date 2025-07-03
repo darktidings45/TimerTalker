@@ -1,20 +1,32 @@
 {
-  "name": "StopwatchMobile",
-  "displayName": "Interactive Stopwatch",
-  "version": "1.0.0",
-  "orientation": "portrait",
-  "icon": "./assets/icon.png",
-  "splash": {
-    "image": "./assets/splash.png",
-    "resizeMode": "contain",
-    "backgroundColor": "#1E293B"
-  },
-  "ios": {
-    "bundleIdentifier": "com.stopwatch.mobile",
-    "buildNumber": "1.0.0"
-  },
-  "android": {
-    "package": "com.stopwatch.mobile",
-    "versionCode": 1
+  "expo": {
+    "name": "Interactive Stopwatch",
+    "slug": "stopwatch-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1E293B"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stopwatch.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1E293B"
+      },
+      "package": "com.stopwatch.mobile"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
   }
 }

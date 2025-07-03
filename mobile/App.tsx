@@ -1,152 +1,116 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  StatusBar,
   View,
-  Text,
+  SafeAreaView,
   ScrollView,
-  Alert,
+  StatusBar,
+  AppState,
+  AppStateStatus,
 } from 'react-native';
-import { useStopwatch } from './src/hooks/useStopwatch';
-import { useTTS } from './src/hooks/useTTS';
-import { StopwatchDisplay } from './src/components/StopwatchDisplay';
-import { StopwatchControls } from './src/components/StopwatchControls';
-import { LapTimes } from './src/components/LapTimes';
+import { useStopwatch } from './hooks/useStopwatch';
+import { useTTS } from './hooks/useTTS';
+import { StopwatchDisplay } from './components/StopwatchDisplay';
+import { StopwatchControls } from './components/StopwatchControls';
+import { LapTimes } from './components/LapTimes';
 
-const App: React.FC = () => {
-  const stopwatch = useStopwatch();
-  const tts = useTTS();
+export default function App() {
+  const {
+    isRunning,
+    elapsedTime,
+    formattedTime,
+    intervalRate,
+    lapTimes,
+    start,
+    stop,
+    reset,
+    toggle,
+    addLap,
+    setIntervalRate,
+    shouldAnnounce,
+    getAnnouncementInterval
+  } = useStopwatch();
+
+  const { speak, isEnabled: isAudioEnabled, setEnabled: setAudioEnabled, isAvailable: isAudioSupported } = useTTS();
+  const lastAnnouncementTimeRef = useRef<number>(0);
 
   // Handle audio announcements
   useEffect(() => {
-    if (stopwatch.isRunning && tts.isEnabled && tts.isInitialized) {
-      if (stopwatch.shouldAnnounce(stopwatch.elapsedTime, stopwatch.intervalRate)) {
-        const totalSeconds = Math.floor(stopwatch.elapsedTime / 1000);
-        let announcement = '';
+    if (!isRunning || !isAudioEnabled || !isAudioSupported) return;
 
-        switch (stopwatch.intervalRate) {
-          case '10seconds':
-            announcement = `${totalSeconds} second${totalSeconds !== 1 ? 's' : ''}`;
-            break;
-          case '30seconds':
-            announcement = `${totalSeconds} second${totalSeconds !== 1 ? 's' : ''}`;
-            break;
-          case 'minute':
-            const minutes = Math.floor(totalSeconds / 60);
-            announcement = `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-            break;
-        }
-
-        if (announcement) {
-          tts.speak(announcement);
-        }
+    const currentTime = elapsedTime;
+    const interval = getAnnouncementInterval(intervalRate);
+    
+    // Only announce if enough time has passed since last announcement
+    if (currentTime - lastAnnouncementTimeRef.current >= interval) {
+      const totalSeconds = Math.floor(currentTime / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      
+      let announcement = '';
+      if (minutes > 0) {
+        announcement = `${minutes} minute${minutes > 1 ? 's' : ''} ${seconds} second${seconds !== 1 ? 's' : ''}`;
+      } else {
+        announcement = `${seconds} second${seconds !== 1 ? 's' : ''}`;
       }
+      
+      speak(announcement);
+      lastAnnouncementTimeRef.current = currentTime;
     }
-  }, [stopwatch.elapsedTime, stopwatch.isRunning, stopwatch.intervalRate, tts]);
+  }, [elapsedTime, isRunning, isAudioEnabled, isAudioSupported, intervalRate, speak, getAnnouncementInterval]);
+
+  // Handle app state changes (pause/resume)
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+      if (nextAppState === 'background' && isRunning) {
+        // Keep running in background
+      }
+    };
+
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    return () => subscription?.remove();
+  }, [isRunning]);
 
   return (
-    <>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1E293B" />
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
-          {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.title}>Interactive Timer</Text>
-            <Text style={styles.subtitle}>
-              Audio-enabled timer with customizable intervals
-            </Text>
-          </View>
-
-          {/* Main Timer Card */}
-          <View style={styles.timerCard}>
-            <StopwatchDisplay 
-              formattedTime={stopwatch.formattedTime}
-              isRunning={stopwatch.isRunning}
-            />
-            
-            <StopwatchControls
-              isRunning={stopwatch.isRunning}
-              intervalRate={stopwatch.intervalRate}
-              isAudioEnabled={tts.isEnabled}
-              isAudioSupported={tts.isInitialized}
-              onStart={stopwatch.start}
-              onStop={stopwatch.stop}
-              onReset={stopwatch.reset}
-              onAddLap={stopwatch.addLap}
-              onToggleAudio={() => tts.setEnabled(!tts.isEnabled)}
-              onIntervalRateChange={stopwatch.setIntervalRate}
-            />
-          </View>
-
-          {/* Lap Times */}
-          <LapTimes lapTimes={stopwatch.lapTimes} />
-
-          {/* Info Section */}
-          <View style={styles.infoSection}>
-            <Text style={styles.infoTitle}>Native Mobile Features</Text>
-            <Text style={styles.infoText}>
-              This React Native app includes native text-to-speech, precise timing, 
-              and works seamlessly across iOS and Android devices.
-            </Text>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <View style={styles.content}>
+          <StopwatchDisplay
+            formattedTime={formattedTime}
+            isRunning={isRunning}
+          />
+          
+          <StopwatchControls
+            isRunning={isRunning}
+            intervalRate={intervalRate}
+            isAudioEnabled={isAudioEnabled}
+            isAudioSupported={isAudioSupported}
+            onStart={start}
+            onStop={stop}
+            onReset={reset}
+            onAddLap={addLap}
+            onToggleAudio={setAudioEnabled}
+            onIntervalRateChange={setIntervalRate}
+          />
+          
+          <LapTimes lapTimes={lapTimes} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F1F5F9',
+    backgroundColor: '#F8FAFC',
   },
   scrollView: {
     flex: 1,
   },
-  header: {
-    padding: 24,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#64748B',
-    textAlign: 'center',
-  },
-  timerCard: {
-    marginHorizontal: 16,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 8,
-    overflow: 'hidden',
-  },
-  infoSection: {
-    margin: 24,
-    padding: 16,
-    backgroundColor: '#DBEAFE',
-    borderRadius: 12,
-  },
-  infoTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1E40AF',
-    marginBottom: 8,
-  },
-  infoText: {
-    fontSize: 14,
-    color: '#1E40AF',
-    lineHeight: 20,
+  content: {
+    flexGrow: 1,
+    paddingBottom: 40,
   },
 });
-
-export default App;
