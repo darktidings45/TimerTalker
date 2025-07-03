@@ -1,0 +1,41 @@
+PS C:\Users\MMB\StudioProjects\TimerTalker> npx @react-native-community/cli@latest init StopwatchMobile --template react-native-template-typescript
+Need to install the following packages:
+@react-native-community/cli@18.0.0
+Ok to proceed? (y) y
+
+warn Ignoring custom template: 'react-native-template-typescript'. Starting from React Native v0.71 TypeScript is used by default.
+                                                          
+               ######                ######               
+             ###     ####        ####     ###             
+            ##          ###    ###          ##            
+            ##             ####             ##            
+            ##             ####             ##            
+            ##           ##    ##           ##            
+            ##         ###      ###         ##            
+             ##  ########################  ##             
+          ######    ###            ###    ######          
+      ###     ##    ##              ##    ##     ###      
+   ###         ## ###      ####      ### ##         ###   
+  ##           ####      ########      ####           ##
+ ##             ###     ##########     ###             ##
+  ##           ####      ########      ####           ##
+   ###         ## ###      ####      ### ##         ###
+      ###     ##    ##              ##    ##     ###
+          ######    ###            ###    ######
+             ##  ########################  ##
+            ##         ###      ###         ##
+            ##           ##    ##           ##
+            ##             ####             ##
+            ##             ####             ##
+            ##          ###    ###          ##
+             ###     ####        ####     ###
+               ######                ######
+
+
+              Welcome to React Native 0.80.1!
+                 Learn once, write anywhere
+
+√ Downloading template
+- Copying template
+
+error Couldn't find the "C:\Users\MMB\AppData\Local\Temp\rncli-init-template-3YlRzn\node_modules\react-native\template.config.js file inside "react-native" template. Please make sure the template is valid. Read more: https://github.com/react-native-community/cli/blob/main/docs/init.md#creating-custom-template
