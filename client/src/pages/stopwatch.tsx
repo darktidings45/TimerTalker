@@ -105,7 +105,7 @@ export default function StopwatchPage() {
             onStop={stopwatch.stop}
             onReset={stopwatch.reset}
             onAddLap={stopwatch.addLap}
-            onToggleAudio={speech.setEnabled}
+            onToggleAudio={() => speech.setEnabled(!speech.isEnabled)}
             onIntervalRateChange={stopwatch.setIntervalRate}
             onFullscreen={handleFullscreen}
           />

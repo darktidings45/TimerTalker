@@ -6,7 +6,7 @@ This is a full-stack interactive stopwatch application built with React, Express
 
 ## System Architecture
 
-### Frontend Architecture
+### Web Application Architecture
 - **Framework**: React with TypeScript
 - **Build Tool**: Vite for fast development and optimized builds
 - **Styling**: Tailwind CSS with shadcn/ui component library
@@ -14,6 +14,15 @@ This is a full-stack interactive stopwatch application built with React, Express
 - **Routing**: Wouter for lightweight client-side routing
 - **Data Fetching**: TanStack Query for server state management
 - **Audio**: Web Speech API for time announcements
+
+### Mobile Application Architecture
+- **Framework**: React Native with TypeScript
+- **Platform Support**: iOS and Android native apps
+- **Audio**: Native text-to-speech engines via react-native-tts
+- **State Management**: React hooks with shared stopwatch logic
+- **UI Components**: Native mobile components with platform-specific styling
+- **Storage**: AsyncStorage for persistent settings
+- **Build**: Metro bundler for React Native development
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express.js
@@ -104,7 +113,9 @@ This is a full-stack interactive stopwatch application built with React, Express
 
 ## Changelog
 
-- July 03, 2025. Initial setup
+- July 03, 2025. Initial web application setup with React, Express, and TypeScript
+- July 03, 2025. Added React Native mobile version with native TTS support
+- July 03, 2025. Updated audio announcement intervals to 10s, 30s, and 1min
 
 ## User Preferences
 

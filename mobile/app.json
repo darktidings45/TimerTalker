@@ -1,0 +1,20 @@
+{
+  "name": "StopwatchMobile",
+  "displayName": "Interactive Stopwatch",
+  "version": "1.0.0",
+  "orientation": "portrait",
+  "icon": "./assets/icon.png",
+  "splash": {
+    "image": "./assets/splash.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#1E293B"
+  },
+  "ios": {
+    "bundleIdentifier": "com.stopwatch.mobile",
+    "buildNumber": "1.0.0"
+  },
+  "android": {
+    "package": "com.stopwatch.mobile",
+    "versionCode": 1
+  }
+}
